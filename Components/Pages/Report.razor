@@ -23,6 +23,8 @@
     .col-md-9 {
         width: 75%;
         padding: 10px;
+        max-width: 850px;
+        overflow: scroll;
     }
 
     #Parameters, #ReportOutput {
@@ -84,8 +86,8 @@
     @if (!string.IsNullOrEmpty(reportOutput))
     {
         <div id="ReportOutput" class="col-md-9">
-            <h4>Report Output</h4>
-            <pre style="height:500px">@reportOutput</pre>
+            <h4>Sample Output</h4>
+            <div>@(new MarkupString(reportOutput.Replace("\n", "<br />")))</div>
         </div>
     }
 </div>
@@ -140,5 +142,6 @@
     private void GenerateReport()
     {
         reportOutput = ReportService.GenerateReport(report.Id, selectedParameters);
+
     }
 }

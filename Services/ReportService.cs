@@ -1,4 +1,5 @@
-﻿using ReportsManager.Entities;
+﻿using Microsoft.AspNetCore.Components;
+using ReportsManager.Entities;
 using System.Text.Json;
 
 namespace ReportsManager.Services
@@ -38,7 +39,9 @@ namespace ReportsManager.Services
 
         public string GenerateReport(string reportId, Dictionary<string, string> selectedParameters)
         {
-            return $"Generated report {reportId} with parameters: {string.Join(", ", selectedParameters.Select(p => $"{p.Key}: {p.Value}"))}";
+            var report = GetReport(reportId);
+            var sampleOutput = report.SampleOutput;
+            return sampleOutput.ToString();
         }
     }
 }
