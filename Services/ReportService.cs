@@ -1,15 +1,30 @@
 ﻿using ReportsManager.Entities;
+using System.Text.Json;
 
 namespace ReportsManager.Services
 {
     public class ReportService
     {
-        private readonly List<Report> _reports = new List<Report>
+        private readonly List<Report> _reports;
+
+        public ReportService()
         {
-            new Report { Id = "1", Name = "Service Headway" },
-            new Report { Id = "2", Name = "Stop Spacing" },
-            // Add more reports as needed
-        };
+            _reports = new List<Report>();
+
+            // Get all the report files in the reports folder
+            var reportFiles = Directory.GetFiles("Reports", "*.json");
+
+            foreach (var reportFile in reportFiles)
+            {
+                // Read the file content
+                var reportContent = File.ReadAllText(reportFile);
+
+                // Deserialize the content into a Report object
+                var report = JsonSerializer.Deserialize<Report>(reportContent);
+
+                _reports.Add(report);
+            }
+        }
 
         public List<Report> GetReports()
         {
