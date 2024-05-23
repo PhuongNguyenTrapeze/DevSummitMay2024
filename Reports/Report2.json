@@ -1,0 +1,27 @@
+{
+    "name": "Driver Paddle",
+    "parameters": {
+        "parameter1": {
+            "label": "Sign Up Period",
+            "type": "DropList",
+            "values": ["Spring 2024", "Summer 2024", "Fall 2024"]
+        },
+        "parameter2": {
+            "label": "Service",
+            "type": "DropList",
+            "values": ["Weekday", "Saturday", "Sunday"]
+        },
+        "parameter3": {
+            "label": "Division",
+            "type": "DropList",
+            "values": ["Bouse", "Dvorak", "Kaplan"]
+        },
+        "parameter3": {
+            "label": "Runs",
+            "type": "CheckList",
+            "values": ["101", "102", "103", "104", "201", "202", "203"]
+        },
+        # Add more parameters as needed
+    },
+    "sample_output": "Southeastern Pennsylvania Transit Authority\nDist:  VICTORY BUS                                     D R I V E R   P A D D L E                                        Page:  1 of  3\n=======================================================================================================================================\nRoute : 112                         File #     :4651        Change Num :                        Effective: Feb 26, 2024     Run #: 255\nLine  : DCCC to 69th St TC          Supercede #:9606        Change Date:                        Service  : WEEKDAY\n=======================================================================================================================================\n      |    PIECE:  1                     |    PIECE:  2                     |      |                  P R E M I U M S\n-----------------------------------------|-----------------------------------------|\nLEAVE |  RTE    PO/REL    PI/REL   SCHED |  RTE    PO/REL    PI/REL   SCHED |ARRIVE| HOLE    : 0:53      OVERTIME:           START  : 1252\nDEPOT |                                  |                                  | DEPOT| TOT SPRD: 8:44      SPREAD  :           FINISH :  932\n      |   112  O/P  106  P/CG  215 1:09  |                                  |      | PLATFORM: 7:51      MIN DAY :           START  :\n      |   115 CG/P  215  P/CG  414 1:59  |                                  |      | TRAVEL  :           PAY HRS : 8.0       NSP    :\n      |   108 CG/P  414  P/L   538 1:24  |   107  L/P  610  P/CG  610 0:00  |      |\n      |                                  |   107 CG/P  610  P/I   929 3:19  |      |\n=======================================================================================================================================\nPULLOUT:  106\n        69th              Media\n        St TC West  West  Line\nBLK     West  Chstr Chstr West\nNO.     Term  Eagle Sprl  Chstr DCCC\n4475 >>  115   129   137   140   144"
+}
