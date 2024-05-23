@@ -1,7 +1,9 @@
 ﻿@page "/report/{ReportId}"
 @using ReportsManager.Entities;
+@using ReportsManager.Services
 <h3>@report.Name</h3>
 
+@inject ReportService ReportService
 <!-- Add your form here for input parameters -->
 <button @onclick="GenerateReport">Generate Report</button>
 
@@ -15,7 +17,7 @@
     {
         // Fetch the report details based on the ReportId
         // For simplicity, I'm just creating a new report here
-        report = new Entities.Report { Id = ReportId, Name = $"Report {ReportId}" };
+        report = ReportService.GetReport(ReportId);
     }
 
     private void GenerateReport()
