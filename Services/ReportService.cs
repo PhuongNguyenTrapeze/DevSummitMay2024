@@ -2,21 +2,19 @@
 
 namespace ReportsManager.Services
 {
+    // ReportService.cs
     public class ReportService
     {
-        private List<Report> _reports;
-
-        public ReportService()
+        public List<Report> GetReports()
         {
-            _reports = new List<Report>();
-            // TODO: Initialize _reports with actual data
-        }
-
-        public List<Report> SearchReports(string fileName, string description, string content)
-        {
-            return _reports.Where(r => r.Name.Contains(fileName)
-                && r.Description.Contains(description)
-                && r.Content.Contains(content)).ToList();
+            // Fetch the reports from your data source here
+            // For simplicity, I'm just returning a static list of reports
+            return new List<Report>
+            {
+                new Report { Id = "1", Name = "Report 1" },
+                new Report { Id = "2", Name = "Report 2" },
+                // Add more reports as needed
+            };
         }
     }
 }

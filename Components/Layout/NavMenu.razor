@@ -1,4 +1,8 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
+﻿@using ReportsManager.Entities
+@using ReportsManager.Services;
+
+@inject ReportService ReportService
+<div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">Report Management</a>
 </div>
 
@@ -16,16 +20,10 @@
 </div>
 
 @code {
-    private List<Report> reports = new List<Report>
-    {
-        new Report { Id = 1, Name = "Report 1" },
-        new Report { Id = 2, Name = "Report 2" },
-        // Add more reports as needed
-    };
+    private List<Report> reports;
 
-    public class Report
+    protected override void OnInitialized()
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        reports = ReportService.GetReports();
     }
 }
