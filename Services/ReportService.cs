@@ -2,19 +2,23 @@
 
 namespace ReportsManager.Services
 {
-    // ReportService.cs
     public class ReportService
     {
+        private readonly List<Report> _reports = new List<Report>
+        {
+            new Report { Id = "1", Name = "Service Headway" },
+            new Report { Id = "2", Name = "Stop Spacing" },
+            // Add more reports as needed
+        };
+
         public List<Report> GetReports()
         {
-            // Fetch the reports from your data source here
-            // For simplicity, I'm just returning a static list of reports
-            return new List<Report>
-            {
-                new Report { Id = "1", Name = "Report 1" },
-                new Report { Id = "2", Name = "Report 2" },
-                // Add more reports as needed
-            };
+            return _reports;
+        }
+
+        public Report GetReport(string id)
+        {
+            return _reports.First(r => r.Id == id);
         }
     }
 }
