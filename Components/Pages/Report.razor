@@ -5,44 +5,91 @@
 @using ReportsManager.Services
 @inject ReportService ReportService
 
-<h3>@report.Name</h3>
+<style>
+    .row {
+        display: flex;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0; /* Light gray background */
+    }
 
-@foreach (var parameter in report.Parameters)
-{
-    <div>
-        <label>@parameter.Value.Label</label>
-        @if (parameter.Value.Type == "DropList")
+    .col-md-3 {
+        width: 25%;
+        border-right: 2px solid #aaa; /* Gray border */
+        padding: 10px;
+        background-color: #eee; /* Slightly darker gray for the sidebar */
+    }
+
+    .col-md-9 {
+        width: 75%;
+        padding: 10px;
+    }
+
+    #Parameters, #ReportOutput {
+        border: 2px solid #888; /* Darker gray border */
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: white;
+    }
+
+    button {
+        background-color: #4CAF50; /* Green background */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px; /* Rounded corners */
+    }
+
+        button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+</style>
+
+<div class="row">
+    <div class="col-md-3">
+        <h3>Parameters for @report.Name</h3>
+        @foreach (var parameter in report.Parameters)
         {
-            <select @bind="selectedParameters[parameter.Key]">
-                @foreach (var value in parameter.Value.Values)
+            <div id="Parameters">
+                <label>@parameter.Value.Label</label>
+                @if (parameter.Value.Type == "DropList")
                 {
-                    <option value="@value">@value</option>
+                    <select @bind="selectedParameters[parameter.Key]">
+                        @foreach (var value in parameter.Value.Values)
+                        {
+                            <option value="@value">@value</option>
+                        }
+                    </select>
                 }
-            </select>
+                else if (parameter.Value.Type == "CheckList")
+                {
+                    foreach (var value in parameter.Value.Values)
+                    {
+                        <div>
+                            <input type="checkbox" id="@value" name="@value" @onchange="e => UpdateCheckList(parameter.Key, value, (bool)e.Value)">
+                            <label for="@value">@value</label>
+                        </div>
+                    }
+                }
+            </div>
         }
-        else if (parameter.Value.Type == "CheckList")
-        {
-            foreach (var value in parameter.Value.Values)
-            {
-                <div>
-                    <input type="checkbox" id="@value" name="@value" @onchange="e => UpdateCheckList(parameter.Key, value, (bool)e.Value)">
-                    <label for="@value">@value</label>
-                </div>
-            }
-        }
+        <button @onclick="GenerateReport">Generate Report</button>
     </div>
-}
+    @if (!string.IsNullOrEmpty(reportOutput))
+    {
+        <div id="ReportOutput" class="col-md-9">
+            <h4>Report Output</h4>
+            <pre style="height:500px">@reportOutput</pre>
+        </div>
+    }
+</div>
 
-<!-- Add your form here for input parameters -->
-<button @onclick="GenerateReport">Generate Report</button>
-
-@if (!string.IsNullOrEmpty(reportOutput))
-{
-    <div class="report-output">
-        <h4>Report Output</h4>
-        <pre>@reportOutput</pre>
-    </div>
-}
 
 @code {
     [Parameter]
