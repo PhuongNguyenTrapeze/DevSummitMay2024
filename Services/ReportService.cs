@@ -35,5 +35,10 @@ namespace ReportsManager.Services
         {
             return _reports.First(r => r.Id == id);
         }
+
+        public string GenerateReport(string reportId, Dictionary<string, string> selectedParameters)
+        {
+            return $"Generated report {reportId} with parameters: {string.Join(", ", selectedParameters.Select(p => $"{p.Key}: {p.Value}"))}";
+        }
     }
 }

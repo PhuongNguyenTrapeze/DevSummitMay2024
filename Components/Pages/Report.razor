@@ -1,27 +1,95 @@
 ﻿@page "/report/{ReportId}"
 @using ReportsManager.Entities;
 @using ReportsManager.Services
+@inject ReportService ReportService
+
 <h3>@report.Name</h3>
 
-@inject ReportService ReportService
+@foreach (var parameter in report.Parameters)
+{
+    <div>
+        <label>@parameter.Value.Label</label>
+        @if (parameter.Value.Type == "DropList")
+        {
+            <select @bind="selectedParameters[parameter.Key]">
+                @foreach (var value in parameter.Value.Values)
+                {
+                    <option value="@value">@value</option>
+                }
+            </select>
+        }
+        else if (parameter.Value.Type == "CheckList")
+        {
+            foreach (var value in parameter.Value.Values)
+            {
+                <div>
+                    <input type="checkbox" id="@value" name="@value" @onchange="e => UpdateCheckList(parameter.Key, value, (bool)e.Value)">
+                    <label for="@value">@value</label>
+                </div>
+            }
+        }
+    </div>
+}
+
 <!-- Add your form here for input parameters -->
 <button @onclick="GenerateReport">Generate Report</button>
+
+@if (!string.IsNullOrEmpty(reportOutput))
+{
+    <div class="report-output">
+        <h4>Report Output</h4>
+        <pre>@reportOutput</pre>
+    </div>
+}
 
 @code {
     [Parameter]
     public string ReportId { get; set; }
 
     private Entities.Report report;
+    private string reportOutput;
+    private Dictionary<string, string> selectedParameters = new Dictionary<string, string>();
 
     protected override void OnInitialized()
     {
-        // Fetch the report details based on the ReportId
-        // For simplicity, I'm just creating a new report here
         report = ReportService.GetReport(ReportId);
+        
+        foreach (var parameter in report.Parameters)
+        {
+            if (parameter.Value.Type == "DropList" || parameter.Value.Type == "CheckList")
+            {
+                selectedParameters[parameter.Key] = parameter.Value.Values.FirstOrDefault() ?? string.Empty;
+            }
+            else
+            {
+                selectedParameters[parameter.Key] = string.Empty;
+            }
+        }
+    }
+
+    private void UpdateCheckList(string parameterKey, string value, bool isChecked)
+    {
+        if (isChecked)
+        {
+            if (selectedParameters.ContainsKey(parameterKey))
+            {
+                selectedParameters[parameterKey] += $", {value}";
+            }
+            else
+            {
+                selectedParameters[parameterKey] = value;
+            }
+        }
+        else
+        {
+            var values = selectedParameters[parameterKey].Split(", ").ToList();
+            values.Remove(value);
+            selectedParameters[parameterKey] = string.Join(", ", values);
+        }
     }
 
     private void GenerateReport()
     {
-        // Implement your logic to generate the report based on the input parameters
+        var reportOutput = ReportService.GenerateReport(report.Id, selectedParameters);
     }
 }
