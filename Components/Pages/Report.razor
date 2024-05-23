@@ -1,0 +1,25 @@
+﻿@page "/report/{ReportId}"
+@using ReportsManager.Entities;
+<h3>@report.Name</h3>
+
+<!-- Add your form here for input parameters -->
+<button @onclick="GenerateReport">Generate Report</button>
+
+@code {
+    [Parameter]
+    public string ReportId { get; set; }
+
+    private Entities.Report report;
+
+    protected override void OnInitialized()
+    {
+        // Fetch the report details based on the ReportId
+        // For simplicity, I'm just creating a new report here
+        report = new Entities.Report { Id = ReportId, Name = $"Report {ReportId}" };
+    }
+
+    private void GenerateReport()
+    {
+        // Implement your logic to generate the report based on the input parameters
+    }
+}
