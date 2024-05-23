@@ -1,4 +1,5 @@
 ﻿@page "/report/{ReportId}"
+
 @using ReportsManager.Entities;
 @using ReportsManager.Services
 @inject ReportService ReportService
@@ -67,7 +68,7 @@
         }
     }
 
-    private void UpdateCheckList(string parameterKey, string value, bool isChecked)
+    public void UpdateCheckList(string parameterKey, string value, bool isChecked)
     {
         if (isChecked)
         {
@@ -88,7 +89,7 @@
         }
     }
 
-    private void GenerateReport()
+    public void GenerateReport()
     {
         var reportOutput = ReportService.GenerateReport(report.Id, selectedParameters);
     }
